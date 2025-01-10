@@ -1,0 +1,24 @@
+{
+    "name": "syluxso/requiem",
+    "description": "Simple http request class that is easy to use and difficult to break.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Syluxso\\Requiem\\": "src/"
+        },
+        "files": [
+          "src/utils.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Syluxso",
+            "email": "syluxso@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.9",
+        "symfony/var-dumper": "^7.2"
+    }
+}

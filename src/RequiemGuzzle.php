@@ -61,7 +61,7 @@ class RequiemGuzzle {
       $this->set_status($response);
       $this->set_message($response);
       $this->set_data($response);
-      $this->set_response($response);
+      $this->set_response();
     } catch (\GuzzleHttp\Exception\RequestException $e) {
       if ($e->hasResponse()) {
         $response = $e->getResponse();

@@ -1,45 +1,115 @@
 # Requiem
-### Goal
-- Make calls simple to construct and read.
-- A structure that is difficult misuse.
-- Permit for presets: headers, auth, method, root, content type, etc.
-- Permit for easy platform customization, twilio, Google Maps, Uber etc.
-- Enable a unified response structure: error, response payload payload, etc.
+### GOAL
+- Make api calls that are simple to read and write.
+- Simple implementation of defaults for setting headers, auth, etc.
+- Access the response $status, $message, $data, $errors with ease.
+- Permit for a platform specific drivers to be pre-configured for each api endpoint.
 
-## Classes
-### Requiem class
-- Implements RequiemApi and defaults the request/response drivers.
+### CLASSES
+- Requiem: Example class to extend RequiemAPi
+- RequiemApi: The main class drive them all.
+- RequiemGuzzle: The class that consumes RequiemApi set up, implements Guzzle call, and returns the call through the RequiemResponse class.
+- RequiemResponse: Takes the data from a $guzzle->getResponse() and processes it.
+- Utils: Helper functions.
 
-### RequiemApi class
-The primary class used to make rest endpoint calls. Extend this if you want to preset items.
-- Add headers
-- Add methods
-- Add body payload
-- Add root
-- Add rout
-- Join root/route
-- Make the request
-- Return the response
-- Report errors if provided
-- Set RequestDriver
-- Set ResponseDriver
 
-### RequiemGuzzle
-- Converts the data from RequiemApi in to a proper Guzzle Call and calls it.
-- Returns all data from the response and returns it to the RequiemApi class.
+### REQUIREMENTS
+- Requires Guzzle
+- PHP 8.x
 
-### RequiemError
-- Sets error code
-- Sets error message
-- Sets data to collect any other info
+### EXAMPLE: Make calls
+```php
+// The most simple call
+$r = new Requiem('https://api.test.com/get');
+$r->call();
+var_dump(
+  $r->status(),  // 200
+  $r->message(), // OK
+  $r->data(),    // array|object of data response.
+  $r->errors()  // null (unless there are errors.
+);
+```
 
-### RequiemResponse
-- Sets RequiemError if it can.
-- Converts response body into a php array/object.
+```php
+// Add query params
+$r = new Requiem('https://api.test.com/get');
+$r->add_query('foo', 'bar'); // adds ?foo=bar to the request url string.
+$r->call();
+```
 
-### RequiemRequestDefault
-- Presets
-  - get
-  - application json
-  - rout is full url
-  - 
+```php
+// Add headers
+$r = new Requiem('https://api.test.com/get');
+$r->add_header('Content-Type', 'application/json'); // Adds header.
+$r->call();
+```
+
+```php
+// Change the request method
+$r = new Requiem('https://api.test.com/get');
+$r->method('post');
+$r->call();
+```
+
+```php
+// Add body content
+$r = new Requiem('https://api.test.com/get');
+$r->add_body($array); // Array/Objects converted to json body.
+$r->call();
+```
+
+```php
+// A few helpers
+$r = new Requiem('https://api.test.com/get');
+$r->basic_auth($user, $pass); // Simple basic auth.
+$r->bearer_auth($token);
+$r->use_json(); // This is added by default and adds the Content Type to the header.
+$r->call();
+```
+
+```php
+// User $root and $routes
+$r = new Requiem('/resource/endpoint');
+$r->roote('https://api.test.com');
+$r->call();
+```
+
+### EXAMPLE: Access the response & errors.
+```php
+$r = new Requiem('https://api.test.com/get');
+$r->call();
+$status_code = $r->status(); // '200'
+$status_message = $r->message(); // 'OK'
+$response_data = $r->data(); // Array or Object body of the api response.
+$errors = $r->errors(); // $error code(s)
+```
+
+### EXAMPLE: Extend with defaults
+```php
+
+class CustomPostRequiem {
+  function __construct($route) {
+    $this->root('https://api.myendpoing.com');
+    $this->route($route);
+    $this->method('post');
+    $this->basic_auth(env('USER_ID', env('USER_PASS')));
+    $this->add_query('api_token', env('API_TOKEN'));
+  }
+}
+
+$r = new CustomPostRequiem('/my-route');
+$r->call();
+
+class CustomGetRequiem {
+  function __construct($route) {
+    $this->root('https://api.myendpoing.com');
+    $this->route($route);
+    $this->method('get');
+    $this->basic_auth(env('USER_ID', env('USER_PASS')));
+    $this->add_query('api_token', env('API_TOKEN'));
+  }
+}
+
+$r = new CustomGetRequiem('/my-route');
+$r->call();
+```

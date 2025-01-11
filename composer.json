@@ -24,8 +24,12 @@
       }
     ],
     "require": {
-      "syluxso/requiem": "dev-main",
       "guzzlehttp/guzzle": "^7.9",
       "symfony/var-dumper": "^7.2"
-    }
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^10.0"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

@@ -145,6 +145,10 @@ class RequiemApi {
     $this->add_header('Authorization', $value);
   }
   
+  public function token_auth($key, $value) {
+    $this->add_query($key, $value);
+  }
+  
   public function use_json() {
     $this->add_header('Content-Type', 'application/json');
   }

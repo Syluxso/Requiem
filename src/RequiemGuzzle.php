@@ -20,8 +20,18 @@ class RequiemGuzzle {
   
   public $response;
   
+  private $driver;
+  
   function __construct(RequiemApi $requiemApi) {
+    $this->set_drivers($requiemApi);
     $this->guzzle($requiemApi);
+  }
+  
+  // TODO: This is a wip and not functioning. The goal was to extend the RequiemResponse to customize the response.
+  private function set_drivers($requestApi) {
+    if(!empty($requestApi->drivers) && !empty($requestApi->drivers['response'])) {
+      $this->driver = $requestApi->drivers['response'];
+    }
   }
   
   private function guzzle($requiemApi) {
@@ -90,7 +100,8 @@ class RequiemGuzzle {
   }
   
   private function set_response() {
-    $this->response = new RequiemResponse($this->status, $this->message, $this->data, $this->error);
+    $response = new RequiemResponse($this->status, $this->message, $this->data, $this->error);
+    $this->response = $response;
   }
   
 }

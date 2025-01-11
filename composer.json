@@ -1,6 +1,6 @@
 {
     "name": "syluxso/requiem",
-    "description": "Simple http request class that is easy to use and difficult to break.",
+    "description": "HTTP requests that are easy to use and extend.",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -17,8 +17,15 @@
             "email": "syluxso@gmail.com"
         }
     ],
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/Syluxso/Requiem"
+      }
+    ],
     "require": {
-        "guzzlehttp/guzzle": "^7.9",
-        "symfony/var-dumper": "^7.2"
+      "syluxso/requiem": "dev-main",
+      "guzzlehttp/guzzle": "^7.9",
+      "symfony/var-dumper": "^7.2"
     }
 }

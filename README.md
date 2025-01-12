@@ -1,4 +1,10 @@
 # Requiem
+
+## INSTALL
+```
+composer require syluxso/requiem
+```
+
 ### GOAL
 - Make api calls that are simple to read and write.
 - Simple implementation of defaults for setting headers, auth, etc.
@@ -22,6 +28,7 @@
 // The most simple call
 $r = new Requiem('https://api.test.com/get');
 $r->call();
+
 var_dump(
   $r->status(),  // 200
   $r->message(), // OK

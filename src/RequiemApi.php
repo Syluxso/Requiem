@@ -61,11 +61,9 @@ class RequiemApi {
   }
   
   public function add_driver($key, $name) {
-    if(in_array($key, array_keys($this->drivers))) {
-      $drivers = $this->drivers;
-      $drivers[$key] = $name;
-      $this->drivers = $drivers;
-    }
+    $drivers = $this->drivers;
+    $drivers[$key] = $name;
+    $this->drivers = $drivers;
   }
   
   /*
@@ -97,7 +95,7 @@ class RequiemApi {
   }
   
   public function get_driver($name = false) {
-    if(in_array($name, $this->drivers)) {
+    if(key_exists($name, $this->drivers)) {
       return $this->drivers[$name];
     } else {
       return false;

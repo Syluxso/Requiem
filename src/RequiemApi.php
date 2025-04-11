@@ -139,7 +139,7 @@ class RequiemApi {
   }
   
   public function bearer_auth($token) {
-    $value = 'Bearer  ' . $token;
+    $value = 'Bearer ' . $token;
     $this->add_header('Authorization', $value);
   }
   
